@@ -1,24 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../../components/ProductCard';
+import ProductView from '../../components/ProductView';
+import MassageComponent from '../../components/MassageComponent';
+
 import { getCategoryByProduct } from '../../store/actions/products'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import CategoryBannerImg from '../../assets/img/categoryBanner.jpg'
+import CategoryBannerImg from '../../assets/img/categoryBanner.jpg';
+import { getAllWishlist, getUserWishlist } from '../../store/actions/wishlist'
+import { getUserCart } from '../../store/actions/cart'
+
 const CategoryProduct = () => {
     const params = useParams();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { categoryByProducts } = useSelector(state => state.products)
-    const onSubmit = () => {
+    const { logedInUser } = useSelector(state => state.users);
+    const [openMsg, setOpenMsg] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState(false);
 
+    const [open, setOpen] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState({})
+
+
+    const onSubmit = (data, type) => {
+        setLoading(true)
+        if (type === "View") {
+            setSelectedProduct(data)
+            handleDialogOpen()
+            setLoading(false)
+        }
+        else if (type === "Wishlist") {
+            if (Object.keys(logedInUser).length !== 0) {
+                setTimeout(() => {
+                    dispatch(getUserWishlist(data, logedInUser?.id))
+                    setOpenMsg(true)
+                    setLoading(false)
+                    setMsg('Product Added in Wishlist Successfully')
+                }, 1000)
+            }
+            else {
+                setOpenMsg(true)
+                setLoading(false)
+                setMsg('Plese Login')
+            }
+
+        }
+        else if (type === "AddToCart") {
+            if (Object.keys(logedInUser).length !== 0) {
+                setTimeout(() => {
+                    dispatch(getUserCart(data, logedInUser?.id))
+                    setOpenMsg(true)
+                    setLoading(false)
+                    setMsg('Product Added into Cart Successfully')
+                }, 1000)
+            }
+            else {
+                setOpenMsg(true)
+                setLoading(false)
+                setMsg('Plese Login')
+            }
+        }
+        console.log("pro", data, type)
     }
-    useEffect(() => {
-        if (params.name.toLowerCase().includes('men')) {
-            dispatch(getCategoryByProduct(params.name + ' clothing'))
-        }
-        else {
-            dispatch(getCategoryByProduct(params.name))
-        }
+    const handleDialogOpen = () => {
+        setOpen(true)
+    }
+    const handleDialogClose = () => {
+        setOpen(false)
+    }
+    const handleClose = () => {
+        setOpenMsg(false);
+    }
 
+    useEffect(() => {
+        const fetchCategroyProduct = async () => {
+            if (params.name.toLowerCase().includes('men')) {
+                setLoading(true)
+                const [success, error] = await dispatch(getCategoryByProduct(params.name + ' clothing'))
+                if (success) {
+                    console.log("sucess")
+                    setLoading(false)
+
+                }
+                if (error) {
+                    setLoading(false)
+                    console.log("error")
+                }
+
+            }
+            else {
+                dispatch(getCategoryByProduct(params.name))
+            }
+        }
+        fetchCategroyProduct()
         console.log(params.name, 'params')
     }, [params.name])
     return (
@@ -52,6 +127,13 @@ const CategoryProduct = () => {
                     }) : null}
                 </div>
             </div>
+            {
+                open ? (
+                    <ProductView selectedProduct={selectedProduct} open={open} addToCartHandler={onSubmit} handleDialogClose={handleDialogClose} />
+                ) : null
+            }
+            <MassageComponent duration={1000} loading={loading} open={openMsg} msg={msg} handleClose={handleClose} />
+
         </>
     )
 }

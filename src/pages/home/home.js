@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import homeBanner from '../../assets/img/homeBanner.webp';
 import menCard from '../../assets/img/menCard.webp';
 import womenCard from '../../assets/img/womenCard.png';
+import electronicCard from '../../assets/img/electronicCard.jpg';
+import jewelleryCard from '../../assets/img/jewelleryCard.jpg';
 
 import ProductCard from '../../components/ProductCard';
 import { FaShippingFast } from 'react-icons/fa';
@@ -9,17 +11,24 @@ import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { BiSupport } from 'react-icons/bi';
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllProducts } from '../../store/actions/products'
-// import { getAllWishList, getUserWishList  } from '../../store/actions/wishlist'
+import { getAllWishlist, getUserWishlist  } from '../../store/actions/wishlist';
+import { getUserCart  } from '../../store/actions/cart';
 
 import DialogComponent from '../../components/DialogComponent';
 import { Button, TextField } from '@material-ui/core';
+import MassageComponent from '../../components/MassageComponent'
+import ProductView from '../../components/ProductView';
 const Home = () => {
     const { allProducts } = useSelector(state => state.products)
     const { logedInUser } = useSelector(state => state.users);
+    const [openMsg, setOpenMsg] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState(false);
 
     const [open, setOpen] = useState(false)
+    const [products, setProducts] = useState([])
+
     const [selectedProduct, setSelectedProduct] = useState({})
-    const [quantity, setQuantity] = useState(1)
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -30,12 +39,45 @@ const Home = () => {
     }
 
     const onSubmit = (data, type) => {
+        setLoading(true)
         if (type === "View") {
             setSelectedProduct(data)
             handleDialogOpen()
+            setLoading(false)
         }
         else if(type === "Wishlist"){
-            // dispatch(getUserWishList(data,logedInUser?.id))
+            if(Object.keys(logedInUser).length !== 0){
+                
+                setTimeout(()=>{
+                    //dispatch(getAllWishlist({id:Math.random(),userId:logedInUser?.id,date:new Date().toLocaleString(),products:products}))
+                    dispatch(getUserWishlist(data,logedInUser?.id))
+                    setOpenMsg(true)
+                    setLoading(false)
+                    setMsg('Product Added into Wishlist Successfully')
+                },1000)
+            }
+            else{
+                setOpenMsg(true)
+                setLoading(false)
+                setMsg('Plese Login')
+            }
+           
+        }
+        else if(type === "AddToCart"){
+            if(Object.keys(logedInUser).length !== 0){
+                setTimeout(()=>{
+                    dispatch(getUserCart(data,logedInUser?.id))
+                    setOpenMsg(true)
+                    setLoading(false)
+                    setMsg('Product Added into Cart Successfully')
+                },1000)
+            }
+            else{
+                setOpenMsg(true)
+                setLoading(false)
+                setMsg('Plese Login')
+            }
+           
         }
         console.log("pro", data, type)
     }
@@ -45,21 +87,11 @@ const Home = () => {
     const handleDialogClose = () => {
         setOpen(false)
     }
-    const handleAddQuantity = () => {
-        setQuantity(quantity + 1)
+  
+    const handleClose = ()=>{
+        setOpenMsg(false);
     }
-    const handleMinusQuantity = () => {
-        if(quantity > 1){
-            setQuantity(quantity - 1)
-        }
-        else{
-            return
-        }
-    }
-    const handleChange = (e)=>{
-        const {name, value} = e.target
-        setQuantity(+value)
-    }
+   
 
     return (
         <>
@@ -149,7 +181,7 @@ const Home = () => {
                 <div className="row mt-4">
                     <div className="col">
                         <div className='position-relative category-card'>
-                            <img src={menCard} className="img-fluid" />
+                            <img src={jewelleryCard} className="img-fluid" />
                             <div class="content-box">
                                 <p class="sub-title">
                                     <span>Jewelery's Collection</span>
@@ -168,7 +200,7 @@ const Home = () => {
                     </div>
                     <div className="col">
                         <div className='position-relative category-card'>
-                            <img src={menCard} className="img-fluid" />
+                            <img src={electronicCard} className="img-fluid" />
                             <div class="content-box">
                                 <p class="sub-title">
                                     <span>Electronics's Collection</span>
@@ -204,34 +236,11 @@ const Home = () => {
             </div>
             {
                 open ? (
-                    <DialogComponent title='' size='md' dialogClose={handleDialogClose} show={open}>
-                        <div className="row">
-                            <div className="col-6">
-                                <img src={selectedProduct?.image} className='img-fluid' />
-                            </div>
-                            <div className='col-6'>
-                                <div>Category: <span className='text-muted'>{selectedProduct?.category}</span></div>
-                                <h4 className='mt-3'>{selectedProduct?.title}</h4>
-                                <h3 className='text-primary mt-4'>${(selectedProduct?.price * quantity)}</h3>
-                                <p className='mb-4'>{selectedProduct?.description}</p>
-                                <div className='row'>
-                                    <div className="col-6">
-                                    <div className="product-quantity-box d-flex">
-                                        <Button variant='contained' onClick={handleMinusQuantity}>-</Button>
-                                        <TextField value={quantity} name='quantity' label="Quantity" variant="outlined" onChange={handleChange}/>
-                                        <Button variant='contained' onClick={handleAddQuantity}>+</Button>
-                                    </div>
-                                    </div>
-                                    <div className='col-6'>
-                                        <Button variant='contained' color='primary'>Add To Cart</Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </DialogComponent>) : null
+                    <ProductView selectedProduct={selectedProduct} open={open} addToCartHandler={onSubmit}  handleDialogClose={handleDialogClose}/>
+                    ) : null
             }
 
+           <MassageComponent duration={1000} loading={loading} open={openMsg} msg={msg} handleClose={handleClose}/>
         </>
     )
 }
