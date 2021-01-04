@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import AppHeader from './components/AppHeader';
+import AppFooter from './components/AppFooter';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,6 +31,7 @@ function App(){
              <Route exact path="/cart" component={Cart}/> 
 
         </Switch>
+        <AppFooter/>
     </Router>
   );
 }

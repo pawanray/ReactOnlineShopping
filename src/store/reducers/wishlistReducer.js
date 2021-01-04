@@ -12,12 +12,24 @@ const initialState = {
 const wishlistReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case FETCH_ALL_WISHLIST:
-      return {
-        ...state,
-        allWishlist: payload
-      }
+        // if(state.allWishlist.length !== 0 ? state.allWishlist.some(item=>item?.userId === 1): []){
+        //   return {
+        //     ...state,
+        //    allWishlist: [...state.allWishlist, [...state.allWishlist.products,payload]]
+        //   }
+        // }
+        // else{
+        //   return {
+        //     ...state,
+        //     allWishlist: [...state.allWishlist,payload]
+        //   }
+        // }
+        return {
+          ...state,
+          allWishlist: [...state.allWishlist,payload]
+        }
+
     case FETCH_USER_WISHLIST:
-      debugger
       const {data,userId} = payload
       return {
         ...state,

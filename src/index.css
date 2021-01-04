@@ -22,7 +22,7 @@ body{
         color: #03A9F4;
         font-weight: 600;
     }
-    .menubar{
+    .menubar, .footer-section{
         background-color: #0f0f0f;
         
     }
@@ -273,4 +273,10 @@ body{
     .product-quantity-box .MuiOutlinedInput-root{
         height: 40px;
         width: 80px
+    }
+
+    .footer-section{
+        padding: 20px 0;
+        text-align: center;
+        color: #fff;
     }

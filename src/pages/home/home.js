@@ -21,12 +21,14 @@ import ProductView from '../../components/ProductView';
 const Home = () => {
     const { allProducts } = useSelector(state => state.products)
     const { logedInUser } = useSelector(state => state.users);
+    const { allWishlist } = useSelector(state => state.wishlist);
+
     const [openMsg, setOpenMsg] = useState(false);
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState(false);
 
     const [open, setOpen] = useState(false)
-    const [products, setProducts] = useState([])
+     const [products, setProducts] = useState([])
 
     const [selectedProduct, setSelectedProduct] = useState({})
 
@@ -46,10 +48,15 @@ const Home = () => {
             setLoading(false)
         }
         else if(type === "Wishlist"){
-            if(Object.keys(logedInUser).length !== 0){
-                
+             if(Object.keys(logedInUser).length !== 0){
+            //     if(allWishlist.some(item=>item?.userId)){
+            //         //return dispatch(getAllWishlist(data))
+            //     }
+            //    else{
+            //     setProducts(prevState =>{
+            //         return [...prevState,data]
+            //      })
                 setTimeout(()=>{
-                    //dispatch(getAllWishlist({id:Math.random(),userId:logedInUser?.id,date:new Date().toLocaleString(),products:products}))
                     dispatch(getUserWishlist(data,logedInUser?.id))
                     setOpenMsg(true)
                     setLoading(false)
@@ -81,6 +88,20 @@ const Home = () => {
         }
         console.log("pro", data, type)
     }
+
+    // useEffect(()=>{
+    //     if(products.length){
+    //         if(allWishlist.some(item=>item?.userId === logedInUser?.id)){
+    //             console.log('some')
+    //             dispatch(getAllWishlist(products))
+    //         }
+    //         else{
+    //             dispatch(getAllWishlist({id:Math.random(),userId:logedInUser?.id,date:new Date().toLocaleString(),products:products}))
+    //         }
+    //     }
+       
+    // },[products])
+
     const handleDialogOpen = () => {
         setOpen(true)
     }

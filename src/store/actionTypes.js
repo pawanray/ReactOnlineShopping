@@ -5,6 +5,7 @@ export const FETCH_PRODUCT_QUANITY = 'FETCH_PRODUCT_QUANITY';
 export const FETCH_ALL_USERS = 'FETCH_ALL_USERS';
 export const FETCH_LOGED_IN_USER = 'FETCH_LOGED_IN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const ADD_USER = 'ADD_USER';
 
 // wishlist
 export const FETCH_ALL_WISHLIST = 'FETCH_ALL_WISHLIST';

@@ -1,5 +1,5 @@
-import {FETCH_ALL_USERS, FETCH_LOGED_IN_USER, LOGOUT_USER} from '../actionTypes';
-import {fetchAllUsers} from  '../../service/users'
+import {FETCH_ALL_USERS, FETCH_LOGED_IN_USER, LOGOUT_USER, ADD_USER} from '../actionTypes';
+import {fetchAllUsers, addUser} from  '../../service/users'
 export const getAllUsers = () => dispatch =>{
     return fetchAllUsers().then(res=>{
             dispatch({type:FETCH_ALL_USERS,payload:res.data})
@@ -22,4 +22,14 @@ export const getLogedInUser = (user) => dispatch => {
 
 export const logoutUser = (logout) => dispatch =>{
     return dispatch({type:LOGOUT_USER,payload:logout})
+}
+
+export const userRegister = (data) => dispatch =>{
+    return addUser(data).then(res=>{
+         dispatch({type:ADD_USER,payload:res});
+         return [true,false]
+    }).catch(err=>{
+        console.log(err)
+        return [false,true]
+    })
 }
