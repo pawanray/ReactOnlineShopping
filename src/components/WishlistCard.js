@@ -17,10 +17,10 @@ const WishlistCard = ({ data, handleClick }) => {
                             <h6 className='product-title'>{data?.title}</h6>
                             <p>{data?.description}</p>
                             <h5 className="price">${data?.price}</h5>
-                            <div class="product-action d-flex">
+                            <div className="product-action d-flex">
                                     <ProductQuantity productId={data.id}/>
-                                <button class="btn mr-2" onClick={() => handleClick(data, 'Delete')}><CgTrash size='1.2rem'/></button>
-                                <button class="btn" onClick={() => handleClick(data, 'AddToCart')}><CgShoppingCart size='1.2rem'/></button>
+                                <button className="btn mr-2" onClick={() => handleClick(data, 'Delete')}><CgTrash size='1.2rem'/></button>
+                                <button className="btn" onClick={() => handleClick(data, 'AddToCart')}><CgShoppingCart size='1.2rem'/></button>
                             </div>
                         </div>
                     </div>

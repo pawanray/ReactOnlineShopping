@@ -100,13 +100,13 @@ const CategoryProduct = () => {
         <>
             <div className='container-fluid px-0'>
                 <img className='img-fluid' src={CategoryBannerImg} height="200" />
-                <div class="category-banner-txt d-flex justify-content-center">
-                    <div class="mx-auto">
+                <div className="category-banner-txt d-flex justify-content-center">
+                    <div className="mx-auto">
                         <h4>Extra</h4>
                         <h3>20% off</h3>
-                        <h3 class="mb-2 heading-border">- Accessories -</h3>
-                        <h2 class="text-transform-none text-center">Summer Sale</h2>
-                        <a href="category.html" class="btn btn-block btn-dark">Shop All Sale</a>
+                        <h3 className="mb-2 heading-border">- Accessories -</h3>
+                        <h2 className="text-transform-none text-center">Summer Sale</h2>
+                        <a href="category.html" className="btn btn-block btn-dark">Shop All Sale</a>
                     </div>
                 </div>
             </div>

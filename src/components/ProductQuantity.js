@@ -21,7 +21,8 @@ const ProductQuantity = ({productId}) => {
         // dispatch(getProductQuantity({productId:productId,quantity: count}))
     }
     const handleMinusQuantity = () => {
-        if(productQuantity > 1){
+        if(count > 1){
+            setCount(count - 1)
             //dispatch(getProductQuantity(productQuantity - 1))
         }
         else{
@@ -29,7 +30,6 @@ const ProductQuantity = ({productId}) => {
         }
     }
     useMemo(()=>{
-        debugger
         dispatch(getProductQuantity({productId:productId,quantity: count}))
         // if(productQuantity){
         //     setQuantity(productQuantity)

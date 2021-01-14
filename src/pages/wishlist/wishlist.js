@@ -41,7 +41,7 @@ const Wishlist = () => {
                 {
                     userWishlist?.products.length ? userWishlist.products.map(product => {
                         return (
-                            <div className='col-sm-12'>
+                            <div className='col-sm-12' key={product.id}>
                                 <WishlistCard handleClick={onSubmit} data={product} />
                             </div>
                         )

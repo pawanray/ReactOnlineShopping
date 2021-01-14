@@ -30,9 +30,8 @@ const Cart = () => {
             <div className='row'>
         {
             userCart?.products?.length ? userCart?.products.map(product=>{
-                debugger
                    return  (
-                   <div className="col-12"><CartCard data={product} handleClick={onsubmit}/></div>
+                   <div className="col-12" key={product.id}><CartCard data={product} handleClick={onsubmit}/></div>
                    )
             }):<h5>Cart Data not Available</h5>
         }

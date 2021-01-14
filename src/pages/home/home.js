@@ -36,8 +36,15 @@ const Home = () => {
     useEffect(() => {
         fetchAllProducts();
     }, [])
-    const fetchAllProducts = () => {
-        dispatch(getAllProducts())
+    const fetchAllProducts = async () => {
+        setLoading(true)
+        const [success,error] = await dispatch(getAllProducts())
+        if(success){
+            setLoading(false)
+        }
+        else if(error){
+            setLoading(false)
+        }
     }
 
     const onSubmit = (data, type) => {
@@ -123,28 +130,28 @@ const Home = () => {
                         <div className="banner-txt">
                             <h2>BEST EXCITING DEAL</h2>
                             <p>30 skins, powerful features, great support, exclusive offer</p><p></p><h3>
-                                <button class="btn btn-primary">SHOP NOW</button>
+                                <button className="btn btn-primary">SHOP NOW</button>
                             </h3></div>
                     </div>
                 </div>
             </div>
             <div className='container bg-white mt-3'>
                 <div className='row pt-4'>
-                    <div class="col-4">
+                    <div className="col-4">
                         <div className='d-flex align-items-center'>
                             <FaShippingFast size='2rem' />
-                            <div class="info-box-content ml-2">
+                            <div className="info-box-content ml-2">
                                 <h6 className='mb-0'>FREE SHIPPING &amp; RETURN</h6>
-                                <p class="text-muted mb-0">Free shipping on all orders over $99.</p>
+                                <p className="text-muted mb-0">Free shipping on all orders over $99.</p>
                             </div>
                         </div>
                     </div>
                     <div className='col-4'>
                         <div className='d-flex align-items-center'>
                             <AiOutlineDollarCircle size='2rem' />
-                            <div class="info-box-content ml-2">
+                            <div className="info-box-content ml-2">
                                 <h6 className='mb-0'>MONEY BACK GUARANTEE</h6>
-                                <p class="text-muted mb-0">100% money back guarantee</p>
+                                <p className="text-muted mb-0">100% money back guarantee</p>
                             </div>
 
                         </div>
@@ -152,9 +159,9 @@ const Home = () => {
                     <div className='col-4'>
                         <div className='d-flex align-items-center'>
                             <BiSupport size='2rem' />
-                            <div class="info-box-content ml-2">
+                            <div className="info-box-content ml-2">
                                 <h6 className='mb-0'>ONLINE SUPPORT 24/7</h6>
-                                <p class="text-muted mb-0">Lorem ipsum dolor sit amet.</p>
+                                <p className="text-muted mb-0">Lorem ipsum dolor sit amet.</p>
                             </div>
                         </div>
                     </div>
@@ -163,17 +170,17 @@ const Home = () => {
                     <div className="col">
                         <div className='position-relative category-card'>
                             <img src={menCard} className="img-fluid" />
-                            <div class="content-box">
-                                <p class="sub-title">
+                            <div className="content-box">
+                                <p className="sub-title">
                                     <span>Men's Collection</span>
                                 </p>
 
-                                <h3 class="banner-title">
+                                <h3 className="banner-title">
                                     <span>Mens</span>
-                                    <span class="border-bt-hover"></span>
+                                    <span className="border-bt-hover"></span>
                                 </h3>
 
-                                <div class="content">
+                                <div className="content">
                                     <span>Quisque destibulum risus cosmopolis</span>
                                 </div>
                             </div>
@@ -182,17 +189,17 @@ const Home = () => {
                     <div className="col">
                         <div className='position-relative category-card'>
                             <img src={womenCard} className="img-fluid" />
-                            <div class="content-box">
-                                <p class="sub-title">
+                            <div className="content-box">
+                                <p className="sub-title">
                                     <span>Women's Collection</span>
                                 </p>
 
-                                <h3 class="banner-title">
+                                <h3 className="banner-title">
                                     <span>Women</span>
-                                    <span class="border-bt-hover"></span>
+                                    <span className="border-bt-hover"></span>
                                 </h3>
 
-                                <div class="content">
+                                <div className="content">
                                     <span>Quisque destibulum risus cosmopolis</span>
                                 </div>
                             </div>
@@ -203,17 +210,17 @@ const Home = () => {
                     <div className="col">
                         <div className='position-relative category-card'>
                             <img src={jewelleryCard} className="img-fluid" />
-                            <div class="content-box">
-                                <p class="sub-title">
+                            <div className="content-box">
+                                <p className="sub-title">
                                     <span>Jewelery's Collection</span>
                                 </p>
 
-                                <h3 class="banner-title">
+                                <h3 className="banner-title">
                                     <span>Jewelery</span>
-                                    <span class="border-bt-hover"></span>
+                                    <span className="border-bt-hover"></span>
                                 </h3>
 
-                                <div class="content">
+                                <div className="content">
                                     <span>Quisque destibulum risus cosmopolis</span>
                                 </div>
                             </div>
@@ -222,17 +229,17 @@ const Home = () => {
                     <div className="col">
                         <div className='position-relative category-card'>
                             <img src={electronicCard} className="img-fluid" />
-                            <div class="content-box">
-                                <p class="sub-title">
+                            <div className="content-box">
+                                <p className="sub-title">
                                     <span>Electronics's Collection</span>
                                 </p>
 
-                                <h3 class="banner-title">
+                                <h3 className="banner-title">
                                     <span>Electronics</span>
-                                    <span class="border-bt-hover"></span>
+                                    <span className="border-bt-hover"></span>
                                 </h3>
 
-                                <div class="content">
+                                <div className="content">
                                     <span>Quisque destibulum risus cosmopolis</span>
                                 </div>
                             </div>
@@ -247,8 +254,8 @@ const Home = () => {
                     {allProducts.length ? allProducts.map(product => {
                         return (
 
-                            <div className='col-3'>
-                                <ProductCard handleClick={onSubmit} data={product} />
+                            <div className='col-3' key={product.id}>
+                                <ProductCard  handleClick={onSubmit} data={product} />
                             </div>
                         )
                     }) : null}
@@ -262,6 +269,8 @@ const Home = () => {
             }
 
            <MassageComponent duration={1000} loading={loading} open={openMsg} msg={msg} handleClose={handleClose}/>
+       
+       
         </>
     )
 }
