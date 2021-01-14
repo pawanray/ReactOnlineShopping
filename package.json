@@ -1,5 +1,5 @@
 {
-  "homepage": "http://pawanray.github.io/onlineShoppingReact",
+  "homepage": "http://pawanray.github.io/ReactOnlineShopping",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -20,7 +20,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
